@@ -20,6 +20,7 @@
 	</head>
 
 	<body>
+  <!--Modal to display what application is and loginfor user -->
 		<div class="modal show">
   			<div class="modal-dialog">
     			<div class="modal-content">
@@ -44,5 +45,34 @@
       	</div>
     </div>
 
+    <!--Modal to display correct username -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+           
+              <h3><center>Welcome</center></h3>
+              <h4><center class="uNameReturn"></center></h4>
+          </div>
+        </div>  
+      </div>
+    </div>
+
+
+    <!--Modal to display incorrect username -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1><center><i class="glyphicon glyphicon-alert"></i></center></h1>
+              <h3><center>Error</center></h3>
+              <h4><center>Incorrect Username</center></h4>
+          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" align="center" data-dismiss="modal">Close</button>
+            </div>
+        </div>  
+      </div>
+    </div>
 	</body>
 </html>

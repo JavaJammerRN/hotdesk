@@ -2,7 +2,7 @@
 	$(document).ready(function() {
 		var myBooking = new Array();
 		var myUser = sessionStorage.getItem('userID');
-		$.getJSON("http://ukl5cg6195g1q:8080/booking/user/"+ myUser, function(result) {
+		$.getJSON("http://UKL5CG6195GRV:8080/booking/user/"+ myUser, function(result) {
 			$.each(result, function(key,val){
 				var booking = new Object();
 				booking.title = val.location;
@@ -71,7 +71,9 @@
     			}
 				
 				// Datepicker appears when enddate input box is selected	
-				$('#edate').datepicker({   					
+				$('#edate').datepicker({
+					
+						daysOfWeekDisabled: [0,6],   					
 					    format: "dd/mm/yyyy",
     					autoclose: true,
 						}).on('changeDate', function (e) {

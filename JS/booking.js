@@ -1,5 +1,8 @@
        $(document).ready(function() {
 
+        $('#datetimepicker1').datepicker();
+
+
 
         // Datepicker appears when startdate input box is selected  
         $('#sdate').datepicker({  
@@ -12,7 +15,7 @@
 
         // Datepicker appears when enddate input box is selected  
         $('#edate').datepicker({   
-              daysOfWeekDisabled: '0,6',           
+              daysOfWeekDisabled: [0,6],           
               format: "yyyy-mm-dd",
             }).on('changeDate', function (e) {
             $(this).datepicker('hide');

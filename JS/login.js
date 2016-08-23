@@ -4,17 +4,22 @@ $(function() {
 	$("#login").click(function() {
 		var inputname = $("#username").val();
 		$.getJSON("http://localhost:8080/user/"+ inputname).success(function(result) {
-				alert(inputname);	
-				alert(result.forename);
+				$('.uNameReturn').append(" " + result.forename + " " );
 				sessionStorage.setItem('userID', result.userID);
 
 					if (inputname == (result.username)) {
-							window.location = "home.html";
-					}
+
+						$('#username') == result.forename;
+						
+						$('#successModal').modal({backdrop: "static"});
+						
+						setTimeout(function() { $('#successModal').modal('hide');
+							window.location = "home.html"},1000);
+						}
 
 
 		}).fail(function(d, status, error) {
-		alert("\nDetails: User not Found");
+		$('#errorModal').modal({backdrop: "static"});
 	});
 
 	});
@@ -22,3 +27,6 @@ $(function() {
 	
 
 });
+
+
+
