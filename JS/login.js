@@ -9,6 +9,8 @@ $(function() {
 				sessionStorage.setItem('userID', result.userID);
 
 					if (inputname == (result.username)) {
+					("#username") = result.forname;
+					$('#myModal').modal({backdrop: "static"});
 							window.location = "home.html";
 					}
 
