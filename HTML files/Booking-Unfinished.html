@@ -2,44 +2,45 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
+      <link id="favicon" href="https://s31.postimg.org/fuv7kn3i3/images.png" rel="shortcut icon">
 
 		<title>Booking</title>
 
-       <link rel="stylesheet" href="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.css" type="text/css">
+    <!--   <link rel="stylesheet" href="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.css" type="text/css">
     <style>
       .map {
         height: 400px;
         width: 600px;
       }
-    </style>
-
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		
-    <script src='D:\Users\chmcinty\Documents\Training\HotDeskProject\JS/booking.js'></script>
+    </style>-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <script src="http://openlayers.org/en/v3.17.1/build/ol.js" type="text/javascript"></script>
-    <script src="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.js" type="text/javascript"></script>
+    <!-- <script src="http://openlayers.org/en/v3.17.1/build/ol.js" type="text/javascript"></script>
+    <script src="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.js" type="text/javascript"></script>-->
+    
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <!--JS and CSS files for datepicker -->
-    <link rel="stylesheet" media="screen" type="text/css" href="D:\Users\chmcinty\Documents\Training\HotDeskProject\datepicker\css\datepicker.css" />
-    <script type="text/javascript" src="D:\Users\chmcinty\Documents\Training\HotDeskProject\datepicker\js\bootstrap-datepicker.js"></script>
-		
+    <link rel="stylesheet" media="screen" type="text/css" href="..\datepicker\css\datepicker.css" />
+    <script type="text/javascript" src="..\datepicker\js\bootstrap-datepicker.js"></script>
+
+     <script src='../JS/booking.js'></script>
+
 	</head>
 
 	<body>
     <!--Navigation Bar -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -48,15 +49,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><i class="glyphicon glyphicon-fire"></i> Hot Desk Booking System </a>
+                <a class="navbar-brand"><i class="glyphicon glyphicon-fire"></i> Hot Desk Booking System </a>
             </div>
-
             <div class="navbar-collapse collapse"> 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="Home.html"><i class="glyphicon glyphicon-home"></i> Home </a></li>
                     <li class="active"><a href="Booking-Unfinished.html"><i class="glyphicon glyphicon-book"></i> Booking </a></li>
-                    <li><a href="About.html"><i class="glyphicon glyphicon-search"></i> About </a></li> 
-                    <li><a href="LOL.html"><i class="glyphicon glyphicon-plus-sign"></i> Help </a></li> 
+                    <li><a href="login.html"><i class="glyphicon glyphicon-off"></i> Logout </a></li> 
+                     
                 </ul>
             </div>
         </div>
@@ -64,7 +64,7 @@
 	
 	</br></br>
 	
-    
+ <!-- Header and search -->    
 <div class="container">
   <div>
     <h2><center>Book a Hot Desk</center></h2><p></p>
@@ -78,12 +78,11 @@
               <div class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
               </div>
-              <input class="form-control" id="sdate" name="date1" placeholder="MM/DD/YYYY" type="text"/>
+              <input class="form-control" id="sdate" placeholder="MM/DD/YYYY" type="text"/>
             </div>
         </div>
       </div>
 
-      
       <div class="col-xs-6 col-sm-4">
         <div class="form-group">
           <label class="control-label requiredField" for="date2">End Date</label>
@@ -91,7 +90,7 @@
               <div class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar" ></i>
               </div>
-              <input class="form-control" id="edate" name="date2" placeholder="MM/DD/YYYY" type="text"/>
+              <input class="form-control" id="edate" placeholder="MM/DD/YYYY" type="text"/>
             </div>
         </div>
       </div>
@@ -103,7 +102,7 @@
               <div class="input-group-addon">
                 <i class="glyphicon glyphicon-globe"></i>
               </div>
-            <select class="form-control" id="select" >
+            <select class="form-control" id="select" disabled="true">
               <option>Edinburgh</option>
               <option>Glasgow</option>
               <option>Belfast</option>
@@ -116,15 +115,30 @@
      <br>
       <div class="col-xs-4">
         <div class="form-group">
-            <button type="button" class="btn btn-danger">Search</button>
+            <button type="button" class="btn btn-danger" id="search">Search</button>
         </div>
       </div>
     
   </div>
 </div>
 
+
+<div class="container col-md-6">
+<table class="table table-reflow table-hover">
+  <thead>
+    <tr class="headers"></tr>
+  </thead>
+  <div class="btn-group" data-toggle="buttons">
+  <tbody class="tableDetails"></tbody>
+  </div>
+  <div class="btn-group" data-toggle="buttons" >
+  <tfoot class="book"></tfoot>
+  </div>
+</table>
+
+</div>
     
-    
+    <!--Location is mapped in this section -->
      <div id="map">
      <div id="wrapper">
         <div id="location"></div>
@@ -136,62 +150,62 @@
       // var pureCoverage = false;
       // if this is just a coverage or a group of them, disable a few items,
       // and default to jpeg format
-      var format = 'image/png';
-      var bounds = [-36.477153311193206, -14.318643659614782,
-                    14.856147457223463, 42.4674681154682];
+      // var format = 'image/png';
+      // var bounds = [-36.477153311193206, -14.318643659614782,
+      //               14.856147457223463, 42.4674681154682];
 
 
-      var mousePositionControl = new ol.control.MousePosition({
-        className: 'custom-mouse-position',
-        target: document.getElementById('location'),
-        coordinateFormat: ol.coordinate.createStringXY(5),
-        undefinedHTML: '&nbsp;'
-      });
-      var untiled = new ol.layer.Image({
-        source: new ol.source.ImageWMS({
-          ratio: 1,
-          url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
-          params: {'FORMAT': format,
-                   'VERSION': '1.1.1',  
-                STYLES: '',
-                LAYERS: 'hot_desk:BOOOOOOOOL',
-          }
-        })
-      });
-      var tiled = new ol.layer.Tile({
-        visible: false,
-        source: new ol.source.TileWMS({
-          url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
-          params: {'FORMAT': format, 
-                   'VERSION': '1.1.1',
-                   tiled: true,
-                STYLES: '',
-                LAYERS: 'hot_desk:BOOOOOOOOL',
-          }
-        })
-      });
-      var projection = new ol.proj.Projection({
-          code: 'EPSG:4326',
-          units: 'degrees',
-          axisOrientation: 'neu'
-      });
-      var map = new ol.Map({
-        controls: ol.control.defaults({
-          attribution: false
-        }).extend([mousePositionControl]),
-        target: 'map',
-        layers: [
-          untiled,
-          tiled
-        ],
-        view: new ol.View({
-           projection: projection
-        })
-      });
+      // var mousePositionControl = new ol.control.MousePosition({
+      //   className: 'custom-mouse-position',
+      //   target: document.getElementById('location'),
+      //   coordinateFormat: ol.coordinate.createStringXY(5),
+      //   undefinedHTML: '&nbsp;'
+      // });
+      // var untiled = new ol.layer.Image({
+      //   source: new ol.source.ImageWMS({
+      //     ratio: 1,
+      //     url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
+      //     params: {'FORMAT': format,
+      //              'VERSION': '1.1.1',  
+      //           STYLES: '',
+      //           LAYERS: 'hot_desk:BOOOOOOOOL',
+      //     }
+      //   })
+      // });
+      // var tiled = new ol.layer.Tile({
+      //   visible: false,
+      //   source: new ol.source.TileWMS({
+      //     url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
+      //     params: {'FORMAT': format, 
+      //              'VERSION': '1.1.1',
+      //              tiled: true,
+      //           STYLES: '',
+      //           LAYERS: 'hot_desk:BOOOOOOOOL',
+      //     }
+      //   })
+      // });
+      // var projection = new ol.proj.Projection({
+      //     code: 'EPSG:4326',
+      //     units: 'degrees',
+      //     axisOrientation: 'neu'
+      // });
+      // var map = new ol.Map({
+      //   controls: ol.control.defaults({
+      //     attribution: false
+      //   }).extend([mousePositionControl]),
+      //   target: 'map',
+      //   layers: [
+      //     untiled,
+      //     tiled
+      //   ],
+      //   view: new ol.View({
+      //      projection: projection
+      //   })
+      // });
 
 
 
-      map.getView().fit(bounds, map.getSize());
+      // map.getView().fit(bounds, map.getSize());
 
 
     </script>

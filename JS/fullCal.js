@@ -27,6 +27,7 @@
 					url: "http://ukl5cg6195g1q:8080/booking/" + bID,
 					success:function(reply){
 						$('#eventModal').modal('hide');
+						window.location.reload();
 						alert(reply);
 					}
 				})
@@ -70,7 +71,7 @@
     			}
 				
 				// Datepicker appears when enddate input box is selected	
-				$('#edate').datepicker({    					
+				$('#edate').datepicker({   					
 					    format: "dd/mm/yyyy",
     					autoclose: true,
 						}).on('changeDate', function (e) {
@@ -79,8 +80,6 @@
 				           
 					},
 
-
-			//on submit function to search for dates
 			
 			
 
