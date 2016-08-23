@@ -9,6 +9,9 @@ $(function() {
 				sessionStorage.setItem('userID', result.userID);
 
 					if (inputname == (result.username)) {
+					("#username") = result.forname;
+					$('#myModal').modal({backdrop: "static"});
+					setTimeout(function() { $('#myModal').modal('hide'); }, 3000);
 							window.location = "home.html";
 					}
 
