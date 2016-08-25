@@ -2,18 +2,19 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-      <link id="favicon" href="https://s31.postimg.org/fuv7kn3i3/images.png" rel="shortcut icon">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	 <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link id="favicon" href="https://s31.postimg.org/fuv7kn3i3/images.png" rel="shortcut icon">
 
 		<title>Booking</title>
 
-    <!--   <link rel="stylesheet" href="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.css" type="text/css">
+       <!-- <link rel="stylesheet" href="http://ukl5cg6195g69:8080/geoserver/openlayers3/ol.css" type="text/css">
     <style>
       .map {
-        height: 400px;
-        width: 600px;
+        height: 200px;
+        width: 300px;
       }
-    </style>-->
+    </style> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
@@ -29,13 +30,11 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+    
     <!--JS and CSS files for datepicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js"></script>
-   
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.css"/>
+     
     <script src='../JS/booking.js'></script>
      
 
@@ -93,8 +92,7 @@
               <div class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar" ></i>
               </div>
-              <input class="form-control" id="edate" placeholder="MM/DD/YYYY"/>
-              
+              <input class="form-control" id="edate" placeholder="MM/DD/YYYY" />
             </div>
         </div>
       </div>
@@ -126,22 +124,10 @@
   </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
 
 <!-- Table for picking seats format -->
 <div class="container col-md-6">
-<table class="table table-reflow table-hover">
+<table class="table table-reflow table-hover" id="resultsTable">
   <thead>
     <tr class="headers"></tr>
   </thead>
@@ -163,68 +149,68 @@
     </div>
 
 
-<script type="text/javascript">
-      // var pureCoverage = false;
-      // if this is just a coverage or a group of them, disable a few items,
-      // and default to jpeg format
-      // var format = 'image/png';
-      // var bounds = [-36.477153311193206, -14.318643659614782,
-      //               14.856147457223463, 42.4674681154682];
+<!-- <script type="text/javascript">
+      var pureCoverage = false;
+      if this is just a coverage or a group of them, disable a few items,
+      and default to jpeg format
+      var format = 'image/png';
+      var bounds = [-36.477153311193206, -14.318643659614782,
+                    14.856147457223463, 42.4674681154682];
 
 
-      // var mousePositionControl = new ol.control.MousePosition({
-      //   className: 'custom-mouse-position',
-      //   target: document.getElementById('location'),
-      //   coordinateFormat: ol.coordinate.createStringXY(5),
-      //   undefinedHTML: '&nbsp;'
-      // });
-      // var untiled = new ol.layer.Image({
-      //   source: new ol.source.ImageWMS({
-      //     ratio: 1,
-      //     url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
-      //     params: {'FORMAT': format,
-      //              'VERSION': '1.1.1',  
-      //           STYLES: '',
-      //           LAYERS: 'hot_desk:BOOOOOOOOL',
-      //     }
-      //   })
-      // });
-      // var tiled = new ol.layer.Tile({
-      //   visible: false,
-      //   source: new ol.source.TileWMS({
-      //     url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
-      //     params: {'FORMAT': format, 
-      //              'VERSION': '1.1.1',
-      //              tiled: true,
-      //           STYLES: '',
-      //           LAYERS: 'hot_desk:BOOOOOOOOL',
-      //     }
-      //   })
-      // });
-      // var projection = new ol.proj.Projection({
-      //     code: 'EPSG:4326',
-      //     units: 'degrees',
-      //     axisOrientation: 'neu'
-      // });
-      // var map = new ol.Map({
-      //   controls: ol.control.defaults({
-      //     attribution: false
-      //   }).extend([mousePositionControl]),
-      //   target: 'map',
-      //   layers: [
-      //     untiled,
-      //     tiled
-      //   ],
-      //   view: new ol.View({
-      //      projection: projection
-      //   })
-      // });
+      var mousePositionControl = new ol.control.MousePosition({
+        className: 'custom-mouse-position',
+        target: document.getElementById('location'),
+        coordinateFormat: ol.coordinate.createStringXY(5),
+        undefinedHTML: '&nbsp;'
+      });
+      var untiled = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          ratio: 1,
+          url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                STYLES: '',
+                LAYERS: 'hot_desk:BOOOOOOOOL',
+          }
+        })
+      });
+      var tiled = new ol.layer.Tile({
+        visible: false,
+        source: new ol.source.TileWMS({
+          url: 'http://ukl5cg6195g69:8080/geoserver/hot_desk/wms',
+          params: {'FORMAT': format, 
+                   'VERSION': '1.1.1',
+                   tiled: true,
+                STYLES: '',
+                LAYERS: 'hot_desk:BOOOOOOOOL',
+          }
+        })
+      });
+      var projection = new ol.proj.Projection({
+          code: 'EPSG:4326',
+          units: 'degrees',
+          axisOrientation: 'neu'
+      });
+      var map = new ol.Map({
+        controls: ol.control.defaults({
+          attribution: false
+        }).extend([mousePositionControl]),
+        target: 'map',
+        layers: [
+          untiled,
+          tiled
+        ],
+        view: new ol.View({
+           projection: projection
+        })
+      });
 
 
 
-      // map.getView().fit(bounds, map.getSize());
+      map.getView().fit(bounds, map.getSize());
 
 
-    </script>
+    </script> -->
 	</body>
 </html>

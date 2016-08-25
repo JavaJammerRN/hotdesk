@@ -72,13 +72,14 @@
 				
 				// Datepicker appears when enddate input box is selected	
 				$('#edate').datepicker({
-					
-						daysOfWeekDisabled: [0,6],   					
-					    format: "dd/mm/yyyy",
-    					autoclose: true,
-						}).on('changeDate', function (e) {
-    				$(this).datepicker('hide');
-				});
+             		weekStart: 1,
+              		daysOfWeekDisabled: [0,6],           
+              		format: "yyyy-mm-dd",
+              		todayHighlight: true,
+              		autoclose: true,
+              		todayBtn: true,
+              		startDate: new Date()
+						});
 				           
 					},
 

@@ -1,30 +1,51 @@
        $(document).ready(function() {
+      
+        
 
-        $('.datetimepicker1').datepicker();
+      var FromEndDate = new Date();
+      var ToEndDate = new Date();
 
-
+      ToEndDate.setDate(ToEndDate.getDate()+365);
 
         // Datepicker appears when startdate input box is selected  
-        $('#sdate').datepicker({  
+        $('#sdate').datepicker({
+              weekStart: 1,
               daysOfWeekDisabled: [0, 6],            
               format: "yyyy-mm-dd",
-            }).on('changeDate', function (e) {
-            $(this).datepicker('hide');
-        });
+              todayHighlight: true,
+              autoclose: true,
+              todayBtn: true,
+              startDate: new Date(),
+            }).on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+        $('#edate').datepicker('setStartDate', startDate);
+
+        
+          }); 
 
 
         // Datepicker appears when enddate input box is selected  
         $('#edate').datepicker({   
+              weekStart: 1,
               daysOfWeekDisabled: [0,6],           
               format: "yyyy-mm-dd",
-            }).on('changeDate', function (e) {
-            $(this).datepicker('hide');
-        });
+              todayHighlight: true,
+              autoclose: true,
+              todayBtn: true,
+              startDate: new Date(),
+            }).on('changeDate', function(selected){
+        FromEndDate = new Date(selected.date.valueOf());
+        FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+        $('#sdate').datepicker('setEndDate', FromEndDate);
+    });
 
           $('#search').click(function(){
 
                $('.headers').empty();
                $('.tableDetails').empty();
+               $('.book').empty();
+               //add if statement to ensure that both dates have been selected
                $('.headers').append("<th scope='col'><center>Desk Number</center></th>");
               var startdate = $('#sdate').val();
               var enddate = $('#edate').val();
@@ -41,14 +62,15 @@
               $.getJSON("http://ukl5cg6195g1q:8080/booking/checkSingleAvailability", {location:location, startDate: startdate, endDate: enddate}).success(function(result) {
 
                   $.each(result, function(key,val){
-                    $('.tableDetails').append("<tr id='desk"+ key +"'><th scope='row'><center>"+ val.deskId +"</center></th></tr>");
+                    
+                    $('.tableDetails').append("<tr id='desk"+ key +"'><th scope='row'><center>"+ val.deskID +"</center></th></tr>");
 
                     start = new Date(startdate);
 
                     for(var d = start; d <= end; d.setDate(d.getDate() +1)){
                       if(contains (formatDate(d),val.dates)){
-
-                        $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-success'><input type='radio' name='"+ formatDate(d) +"'</label></td>");
+                        
+                        $('#desk'+ key).append("<td id ='"+ formatDate(d) +"' style='text-align:center'><label class='btn btn-success'><input type='radio' id='"+ formatDate(d) +"' required</label></td>");
 
                       }else{
                   $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-default'><input type='radio' name='"+ formatDate(d) +"' disabled='true'></label></td>");
@@ -90,5 +112,35 @@
             }
             return false;
           }
+
+          function getStartEndDate(){
+            var gettingDate = $('#sdate').datepicker('getDate');
+            return gettingDate.setDate(gettingDate.getDate() + 13);
+          }
+
+          $('.book').click(function(){
+              var checked = $('#resultsTable').find(":radio:checked");
+              alert(checked.length);
+              console.log(checked);
+  //             $('#resultsTable').each(function(){
+  //                 $(this).find('td').each(function(){
+  //                   if($(this).attr('id').getElementById('2016-10-10').checked){
+  //                     alert("hello");
+  //                   }
+  //                 var x = $(this).attr('id');
+                  
+        //do your stuff, you can use $(this) to get current cell
+//          })
+//             })
+
+            // var table = document.getElementById('#resultsTable');
+            // console.log(resultsTable);
+            // for(var i = 0, row; row = table.rows[i]; i++){
+            //   alert(row);
+            //   for(var j = 0, col; col = row.cells[j]; j++){
+            //     alert(col);
+            //   }
+            // }
+          });
 
 });
