@@ -33,6 +33,21 @@
 				})
 
 			});
+			
+				$('#YES').click(function(){
+			//alert($('#something').text());
+			var bID = $('#something').text();
+				$.ajax({
+					type: "DELETE",
+					url: "http://ukl5cg6195g1q:8080/booking/" + bID,
+					success:function(reply){
+						$('#deleteModal').modal('hide');
+						window.location.reload();
+						alert(reply);
+					}
+				})
+
+			});
 
 
 		function startCal(bk){
