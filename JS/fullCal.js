@@ -23,13 +23,20 @@
 			//alert($('#something').text());
 			var bID = $('#something').text();
 				$.ajax({
-					type: "DELETE",
+					$('#deleteModal').modal({backdrop: "static"});
+					type: "YES",
 					url: "http://ukl5cg6195g1q:8080/booking/" + bID,
 					success:function(reply){
 						$('#eventModal').modal('hide');
 						window.location.reload();
 						alert(reply);
 					}
+					type: "CANCEL",
+						success:function(reply){
+						$('#eventModal').modal('hide');
+						window.location.reload();
+						alert(reply);
+						}
 				})
 
 			});
