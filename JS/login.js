@@ -13,6 +13,7 @@ $(function() {
 	$("#login").click(function() {
 		var inputname = $("#username").val();
 		$.getJSON(defaultConnection+"/userLogin/"+ inputname).success(function(result) {
+			if(result.userID >-1){
 			$('.uNameReturn').append(" " + result.forename + " " );
 			//Add the current user id to the sessionStorage
 			sessionStorage.setItem('userID', result.userID);
@@ -21,6 +22,10 @@ $(function() {
 				$('#successModal').modal({backdrop: "static"});
 				setTimeout(function() { $('#successModal').modal('hide');
 				window.location = "home.html"},1000);
+			}
+			}
+			else{
+				$('#errorModal').modal({backdrop: "static"});
 			}
 		}).fail(function(d, status, error) {
 			$('#errorModal').modal({backdrop: "static"});
