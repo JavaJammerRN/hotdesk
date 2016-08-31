@@ -62,7 +62,13 @@ $(document).ready(function() {
 		sessionStorage.setItem('endDate', $('#edate').val());
 
 		if(sessionStorage.getItem('endDate') == ""){
-			alert ("You must select and End Date for your booking");
+			//Hide the current modal in order to show the error
+			$('#myModal').modal('hide');
+			//Instantiate the modal and its data
+			$('#insertTextErrors').empty();
+			$('#insertTextErrors').append("You must select and End Date for your booking!");
+			$('#errorModals').modal({backdrop: "static"});
+			setTimeout(function() { $('#errorModals').modal('hide');$('#myModal').modal('show'); },1500);
 		}
 		else{
 			//Verify that the booking is no longer than 14 days
@@ -76,7 +82,13 @@ $(document).ready(function() {
 				window.open('Booking.html', "_self");
 			}
 			else{
-				alert("A booking cannot have a length greater than 14 days");
+				//Hide the current modal in order to show the error
+				$('#myModal').modal('hide');
+				//Instantiate the modal and its data
+				$('#insertTextErrors').empty();
+				$('#insertTextErrors').append("A booking cannot have a length greater than 14 days!");
+				$('#errorModals').modal({backdrop: "static"});
+				setTimeout(function() { $('#errorModals').modal('hide');$('#myModal').modal('show'); },1500);
 			}
 		}
 
@@ -182,7 +194,7 @@ $(document).ready(function() {
 						$('#myModal').modal({backdrop: "static"});
 					} else {
 						// Else part is for past dates
-						$('#errorModal').modal({backdrop: "static"});
+						$('#errorModalB').modal({backdrop: "static"});
 					}
 				}
 
@@ -264,7 +276,10 @@ $(document).ready(function() {
 					});
 				},
 				fail: function(){
-					alert("Fail");
+					$('#insertTextErrors').empty();
+					$('#insertTextErrors').append("Error While Retrieving the Information!");
+					$('#errorModals').modal({backdrop: "static"});
+					setTimeout(function() { $('#errorModals').modal('hide'); },1500);
 				}
 			});
 			$('#eventModal').modal({backdrop: "static"});
@@ -284,12 +299,17 @@ $(document).ready(function() {
 				success:function(reply){
 					//Reset the session variable for the bookingID
 					sessionStorage.setItem('bookingID',-1);
-					$('#eventModal').modal('hide');
-					window.location.reload();
-					alert(reply);
+					$('#deleteModal').modal('hide');
+					$('#insertTextConfirms').empty();
+					$('#insertTextConfirms').append("Booking Deleted Successfully!");
+					$('#confirmationModals').modal({backdrop: "static"});
+					setTimeout(function() { $('#confirmationModals').modal('hide'); window.location.reload()},1500);
 				},
 				fail: function(error){
-					alert(error);
+					$('#insertTextErrors').empty();
+					$('#insertTextErrors').append(error);
+					$('#errorModals').modal({backdrop: "static"});
+					setTimeout(function() { $('#errorModals').modal('hide'); },1500);
 				}
 			});
 		});

@@ -12,12 +12,10 @@ $(function() {
 	//Get function to retrieve and populate gpNames in select picker.
 	$("#login").click(function() {
 		var inputname = $("#username").val();
-		//$.getJSON("http://localhost:8080/user/"+ inputname).success(function(result) {
 		$.getJSON(defaultConnection+"/userLogin/"+ inputname).success(function(result) {
 			$('.uNameReturn').append(" " + result.forename + " " );
 			//Add the current user id to the sessionStorage
 			sessionStorage.setItem('userID', result.userID);
-
 			if (inputname == (result.username)) {
 				$('#username') == result.forename;
 				$('#successModal').modal({backdrop: "static"});

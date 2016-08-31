@@ -46,8 +46,35 @@
 
 <body>
 
+	<!-- General Error Modal-->
+	<div class="modal fade" id="errorModals" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1><center><i class="glyphicon glyphicon-alert" style="color:#d9534f"></i></center></h1>
+					<h3><center>Fail</center></h3>
+					<h4><center><div id="insertTextErrors"></div></center></h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- General Confirmation Modal-->
+	<div class="modal fade" id="confirmationModals" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1><center><i class="glyphicon glyphicon-ok" style="color:#5cb85c"></i></center></h1>
+					<h3><center>Success</center></h3>
+					<!--<h4><center>The Booking has been created!</center></h4>-->
+					<h4><center><div id="insertTextConfirms"></div></center></h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Error Modal for day in past-->
-	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	<div class="modal fade" id="errorModalB" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">

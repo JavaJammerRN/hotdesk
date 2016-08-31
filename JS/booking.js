@@ -79,14 +79,22 @@ $(document).ready(function() {
     var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
     var numDaysBetweenDates =  Math.round(Math.abs((startD.getTime() - endD.getTime())/(oneDay)));
     if($('#sdate').val() == "" || $('#edate').val() == ""){
-      alert("Please select a valid date!");
+      $('#insertTextError').empty();
+      $('#insertTextError').append("Please select a valid date!");
+      $('#errorModal').modal({backdrop: "static"});
+      setTimeout(function() { $('#errorModal').modal('hide'); },1500);
+      //alert("Please select a valid date!");
     }
     else{
       if(numDaysBetweenDates >= 0 && numDaysBetweenDates<14){
         searchAvailableSeats($('#sdate').val(),$('#edate').val());
       }
       else{
-        alert("A booking cannot have a length greater than 14 days");
+        $('#insertTextError').empty();
+        $('#insertTextError').append("A booking cannot have a length greater than 14 days!");
+        $('#errorModal').modal({backdrop: "static"});
+        setTimeout(function() { $('#errorModal').modal('hide'); },1500);
+        //alert("A booking cannot have a length greater than 14 days");
       }
     }
   });
@@ -98,7 +106,11 @@ $(document).ready(function() {
     //Verify if the user has picked a seat for each day of the booking
     if(checked.length != daysCounter){
       //In this case, the user has not made a selection for each datepicker
-      alert("Please select a seat for each day of the booking!");
+      $('#insertTextError').empty();
+      $('#insertTextError').append("Please select a seat for each day of the booking!");
+      $('#errorModal').modal({backdrop: "static"});
+      setTimeout(function() { $('#errorModal').modal('hide'); },1500);
+      //alert("Please select a seat for each day of the booking!");
     }
     else{
       //Add all the data related to the booking to the var bookingData
@@ -136,18 +148,20 @@ $(document).ready(function() {
               //Load the home page with all the bookingDetails after resetting the session object to undefined
               sessionStorage.setItem('newEdit',"");
               //Update text to confirmation modal
-              $('#insertTextConfirm').val("Booking Updated Correctly!");
+              $('#insertTextConfirm').empty();
+              $('#insertTextConfirm').append("Booking Updated Correctly!");
               //Show a confirmation message for 1 sec
               //Open this link in the same window
               $('#confirmationModal').modal({backdrop: "static"});
               setTimeout(function() { $('#confirmationModal').modal('hide');
-              window.location = "home.html"},1000);
+              window.location = "home.html"},1500);
             }
             else{
               //Update text to error modal
-              $('#insertTextError').append("BAD BAD DEVELOPER");
+              $('#insertTextError').empty();
+              $('#insertTextError').append("Error While Updating the Record!");
               $('#errorModal').modal({backdrop: "static"});
-              setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+              setTimeout(function() { $('#errorModal').modal('hide'); },1500);
             }
           },
           // success: function(result){
@@ -191,13 +205,19 @@ $(document).ready(function() {
               sessionStorage.setItem('newEdit',"");
               //Show a confirmation message for 1 sec
               //Open this link in the same window
+              $('#insertTextConfirm').empty();
+              $('#insertTextConfirm').append("Booking Inserted Correctly!");
+              //Show a confirmation message for 1 sec
+              //Open this link in the same window
               $('#confirmationModal').modal({backdrop: "static"});
               setTimeout(function() { $('#confirmationModal').modal('hide');
-              window.location = "home.html"},1000);
+              window.location = "home.html"},1500);
             }
             else{
+              $('#insertTextError').empty();
+              $('#insertTextError').append("Error While Creating the Record!");
               $('#errorModal').modal({backdrop: "static"});
-              setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+              setTimeout(function() { $('#errorModal').modal('hide'); },1500);
             }
           },
           // success: function(result){
@@ -277,7 +297,11 @@ function searchAvailableSeats(sD, eD){
       //Request to update GIS database
       putRequestForGIS(desksAvailable);
     }).fail(function(d, status, error) {
-      alert("\nError: No Dates Selected");
+      $('#insertTextError').empty();
+      $('#insertTextError').append("No Dates Selected!");
+      $('#errorModal').modal({backdrop: "static"});
+      setTimeout(function() { $('#errorModal').modal('hide'); },1500);
+      //alert("\nError: No Dates Selected");
     });
   }
 
