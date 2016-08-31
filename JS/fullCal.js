@@ -8,9 +8,11 @@ var defaultConnection=mikesconnection;
 
 $(document).ready(function() {
 	sessionStorage.setItem('newEdit',"");
-	sessionStorage.setItem(sessionStorage.getItem('bookingID'), -1);
+	sessionStorage.setItem('bookingID', -1);
 	sessionStorage.setItem(sessionStorage.getItem('location'), "");
 	sessionStorage.setItem(sessionStorage.getItem('seatsDate'), null);
+	sessionStorage.setItem('startDate', "");
+  sessionStorage.setItem('endDate', "");
 	var myBooking = new Array();
 
 	$.getJSON(defaultConnection+"booking/user/"+ sessionStorage.getItem('userID'), function(result) {
@@ -40,9 +42,17 @@ $(document).ready(function() {
 		window.open('Booking.html', "_self");
 	});
 
+	//When the selected booking has been closed, clear the session
+	$('#closeBooking').click(function(){
+		//Set the value of the current session variable to NULL, so it is usable in the future to check if it is a new booking or an edit one
+		sessionStorage.setItem('newEdit',"Close");
+		sessionStorage.setItem("bookingID", -1);
+	});
+
+
 	$('#searchAvailability').click(function(){
-		//Set the value of the current session variable to EDIT, so it is usable in the future to check if it is a new booking or an edit one
-		sessionStorage.setItem('newEdit',"Edit");
+		//Set the value of the current session variable to NULL, so it is usable in the future to check if it is a new booking or an edit one
+		sessionStorage.setItem('newEdit',"");
 		//$(this).append("<a href='Booking-Unfinished.html'><i class='glyphicon glyphicon-book'></i> Search </a>");
 		//Add data to the sessionStorage
 		sessionStorage.setItem('bookingID', -1);

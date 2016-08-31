@@ -1,3 +1,4 @@
+
 //Red's Connection
 var redsconnection= "http://ukl5cg6195g1q:8080/";
 //Mike's Connection
@@ -12,15 +13,31 @@ $(document).ready(function() {
   var FromEndDate = new Date();
   var ToEndDate = new Date();
 
+  //Update GIS table
+  putRequestForGIS(new Array());
+
+  //Add the start and the end dates to the datepickers
+
   //Check if the user wants to edit a current booking or create a new one
   if(sessionStorage.getItem('newEdit') == "Edit"){
-    //Add the start and the end dates to the datepickers
+    //Send request for seats availability
+    searchAvailableSeats(sessionStorage.getItem('startDate'), sessionStorage.getItem('endDate'));
     $('#sdate').val(sessionStorage.getItem('startDate'));
     $('#edate').val(sessionStorage.getItem('endDate'));
     $('#select').val(sessionStorage.getItem('location'));
-    searchAvailableSeats(sessionStorage.getItem('startDate'), sessionStorage.getItem('endDate'));
-  }else{
+  }
+  else if(sessionStorage.getItem('newEdit') == "Close"){
+    sessionStorage.setItem('newEdit', "");
+  }
+  else{
+    $('#sdate').val(sessionStorage.getItem('startDate'));
+    $('#edate').val(sessionStorage.getItem('endDate'));
+    $('#select').val(sessionStorage.getItem('location'));
     sessionStorage.setItem('bookingID',-1);
+    //Send request for seats availability
+    if($('#sdate').val() != ""){
+      searchAvailableSeats(sessionStorage.getItem('startDate'), sessionStorage.getItem('endDate'));
+    }
   }
 
   ToEndDate.setDate(ToEndDate.getDate()+365);
@@ -101,30 +118,103 @@ $(document).ready(function() {
       var tidy = tidyDataBookingBeforeSending(dataForBooking);
       //Wrap the object into a BookingTableWrapper to pass to the API
       var bookingTableWrapper = { "bookingTables":tidy }
-      //console.log(tidy);
-      //Send the data to the API
-      $.ajax({
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        dataType: "json",
-        url:defaultConnection+"booking/"+sessionStorage.getItem('userID'),
-        method: "POST",
-        data: JSON.stringify(bookingTableWrapper),
-        complete: function(result){
-          //Load the home page with all the bookingDetails after resetting the session object to undefined
-          sessionStorage.setItem('newEdit',"");
-          //Show a confirmation message for 1 sec
-          //Open this link in the same window
-          $('#confirmationModal').modal({backdrop: "static"});
-          setTimeout(function() { $('#confirmationModal').modal('hide');
-          window.location = "home.html"},1000);
-        },
-        fail: function(error){
-          alert("Problem");
-        }
-      });
+      //Verify if it is a new booking or an Edit booking
+      if(sessionStorage.getItem('newEdit') == "Edit"){
+        //Send an UPDATE request to update the selected booking
+        $.ajax({
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          dataType: "json",
+          url:defaultConnection+"booking/"+sessionStorage.getItem('bookingID')+"/user/"+sessionStorage.getItem('userID'),
+          method: "PUT",
+          data: JSON.stringify(bookingTableWrapper),
+          complete: function(event, xhr, settings){
+            if(xhr!="parserror"){
+              //Request executed successfully
+              //Load the home page with all the bookingDetails after resetting the session object to undefined
+              sessionStorage.setItem('newEdit',"");
+              //Update text to confirmation modal
+              $('#insertTextConfirm').val("Booking Updated Correctly!");
+              //Show a confirmation message for 1 sec
+              //Open this link in the same window
+              $('#confirmationModal').modal({backdrop: "static"});
+              setTimeout(function() { $('#confirmationModal').modal('hide');
+              window.location = "home.html"},1000);
+            }
+            else{
+              //Update text to error modal
+              $('#insertTextError').append("BAD BAD DEVELOPER");
+              $('#errorModal').modal({backdrop: "static"});
+              setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+            }
+          },
+          // success: function(result){
+          //   //console.log(result);
+          //   //Load the home page with all the bookingDetails after resetting the session object to undefined
+          //   sessionStorage.setItem('newEdit',"");
+          //   //Update text to confirmation modal
+          //   $('#insertTextConfirm').val("Booking Updated Correctly!");
+          //   //Show a confirmation message for 1 sec
+          //   //Open this link in the same window
+          //   $('#confirmationModal').modal({backdrop: "static"});
+          //   setTimeout(function() { $('#confirmationModal').modal('hide');
+          //   window.location = "home.html"},1000);
+          // },
+          // error: function(xhr,status,error){
+          //   console.log(error);
+          //   console.log(status);
+          //   console.log(xhr);
+          //   //Update text to error modal
+          //   $('#insertTextError').append("BAD BAD DEVELOPER");
+          //   $('#errorModal').modal({backdrop: "static"});
+          //   setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+          // }
+        });
+      }
+      else{
+        //Create a NEW booking request
+        $.ajax({
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          dataType: "json",
+          url:defaultConnection+"booking/"+sessionStorage.getItem('userID'),
+          method: "POST",
+          data: JSON.stringify(bookingTableWrapper),
+          complete: function(event, xhr, settings){
+            if(xhr!="parserror"){
+              //Request executed successfully
+              //Load the home page with all the bookingDetails after resetting the session object to undefined
+              sessionStorage.setItem('newEdit',"");
+              //Show a confirmation message for 1 sec
+              //Open this link in the same window
+              $('#confirmationModal').modal({backdrop: "static"});
+              setTimeout(function() { $('#confirmationModal').modal('hide');
+              window.location = "home.html"},1000);
+            }
+            else{
+              $('#errorModal').modal({backdrop: "static"});
+              setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+            }
+          },
+          // success: function(result){
+          //   //Load the home page with all the bookingDetails after resetting the session object to undefined
+          //   sessionStorage.setItem('newEdit',"");
+          //   //Show a confirmation message for 1 sec
+          //   //Open this link in the same window
+          //   $('#confirmationModal').modal({backdrop: "static"});
+          //   setTimeout(function() { $('#confirmationModal').modal('hide');
+          //   window.location = "home.html"},1000);
+          // },
+          // error: function(error){
+          //   $('#errorModal').modal({backdrop: "static"});
+          //   setTimeout(function() { $('#errorModal').modal('hide'); },1000);
+          // },
+        });
+      }
     }
   });
 });
@@ -157,90 +247,121 @@ function searchAvailableSeats(sD, eD){
       $('.headers').append("<th scope='col'><center>" + formatDate(d) + "</center></th>")
     }
   }
-  var seatsNumber;
+  var desksAvailable=new Array();
   $.getJSON(defaultConnection+"booking/checkSingleAvailability", {
     location:location, startDate: startString, endDate: endString, bookingId: sessionStorage.getItem('bookingID')})
     .success(function(result) {
+      console.log(result);
       $.each(result, function(key,val){
-    $('.tableDetails').append("<tr id='desk"+ key +"'><th scope='row'><center>"+ val.deskID +"</center></th></tr>");
-    desksCounter++;
-    sD = new Date(startString);
-    for(var d = sD; d <= eD; d.setDate(d.getDate() +1)){
-      //Check whether the date is a Saturday or a Sunday
-      if(d.getDay()!=6 && d.getDay()!=0){
-        daysCounter++;
-      }
-      if(contains (formatDate(d),val.dates)){
-        //$('#desk'+ key).append("<td id ='"+ formatDate(d) +"' style='text-align:center'><label class='btn btn-success'><input type='radio' id='"+ formatDate(d) +"' required</label></td>");
-        $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-success'><input type='radio' name='"+ formatDate(d) +"' id ='"+ formatDate(d) +"_"+(key+1) +"' required</label></td>");
-      }
-      else if(d.getDay()!=6 && d.getDay()!=0){
-        $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-default'><input type='radio' name='"+ formatDate(d) +"' id ='"+ formatDate(d) +"_"+(key+1) +"' disabled='true'></label></td>");
-      }
-    }
-  })
-  $('.book').append("<center><button type='button' class='btn btn-primary' id='book'>Book Hot Desk</button></center>");
-
-  daysCounter=daysCounter/desksCounter;
-}).fail(function(d, status, error) {
-  alert("\nError: No Dates Selected");
-});
-}
-
-
-function formatDate(date){
-  date=new Date(date);
-  var year = date.getFullYear();
-  var day = formatDayMonth(date.getDate());
-  var month = formatDayMonth((date.getMonth() + 1));
-  return year + "-" + month + "-" + day;
-}
-
-function formatDayMonth(dayMonth){
-  if(dayMonth < 10){
-    return 0 + "" + dayMonth;
-  }else{
-    return dayMonth;
+        //Add the desk number to the array
+        desksAvailable.push(val.deskID);
+        $('.tableDetails').append("<tr id='desk"+ key +"'><th scope='row'><center>"+ val.deskID +"</center></th></tr>");
+        desksCounter++;
+        sD = new Date(startString);
+        for(var d = sD; d <= eD; d.setDate(d.getDate() +1)){
+          //Check whether the date is a Saturday or a Sunday
+          if(d.getDay()!=6 && d.getDay()!=0){
+            daysCounter++;
+          }
+          if(contains (formatDate(d),val.dates)){
+            //$('#desk'+ key).append("<td id ='"+ formatDate(d) +"' style='text-align:center'><label class='btn btn-success'><input type='radio' id='"+ formatDate(d) +"' required</label></td>");
+            $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-success'><input type='radio' name='"+ formatDate(d) +"' id ='"+ formatDate(d) +"_"+(key+1) +"' required</label></td>");
+          }
+          else if(d.getDay()!=6 && d.getDay()!=0){
+            $('#desk'+ key).append("<td style='text-align:center'><label class='btn btn-default'><input type='radio' name='"+ formatDate(d) +"' id ='"+ formatDate(d) +"_"+(key+1) +"' disabled='true'></label></td>");
+          }
+        }
+      })
+      $('.book').append("<center><button type='button' class='btn btn-primary' id='book'>Book Hot Desk</button></center>");
+      daysCounter=daysCounter/desksCounter;
+      //Request to update GIS database
+      putRequestForGIS(desksAvailable);
+    }).fail(function(d, status, error) {
+      alert("\nError: No Dates Selected");
+    });
   }
-}
 
-function contains(value, list){
-  var isContained = false;
-  for(var i = 0; i < list.length; i++ ){
-    if(list[i] == value){
-      return true;
-    }
+  function putRequestForGIS(dataObj){
+    $.ajax({
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      dataType: "json",
+      url:redsconnection+"gis",
+      method: "PUT",
+      data: JSON.stringify({"deskIDs": dataObj}),
+      // complete: function(event, xhr, settings){
+      //   if(xhr!="parserror"){
+      //     alert("WELL DONE");
+      //   }
+      //   else{
+      //     alert("Error");
+      //   }
+      //   console.log(event);
+      //   console.log(xhr);
+      //   console.log(settings);
+      // },
+      // fail: function(d, status, error){
+      //   alert("GIS Problem");
+      // }
+    });
   }
-  return false;
-}
 
-function getStartEndDate(){
-  var gettingDate = $('#sdate').datepicker('getDate');
-  return gettingDate.setDate(gettingDate.getDate() + 13);
-}
 
-function tidyDataBookingBeforeSending(data){
-  for(var i=0; i<data.length-1; i++){
-    for(var j=(i+1); j<data.length; j++){
-      if(data[i].deskID == data[j].deskID){
-        data[i].dates.push(data[j].dates[0]);
-        //now set the DeskID to an invalid number
-        data[j].deskID=-1;
-      }
-    }
+  function formatDate(date){
+    date=new Date(date);
+    var year = date.getFullYear();
+    var day = formatDayMonth(date.getDate());
+    var month = formatDayMonth((date.getMonth() + 1));
+    return year + "-" + month + "-" + day;
   }
-  //Remove all the useless elements
-  var correctArray=[];
-  for(var i=0; i<data.length; i++){
-    if(data[i].deskID!=-1){
-      correctArray.push(data[i]);
+
+  function formatDayMonth(dayMonth){
+    if(dayMonth < 10){
+      return 0 + "" + dayMonth;
+    }else{
+      return dayMonth;
     }
   }
-  return correctArray;
-}
 
-//Define an Object BookingTable
-function BookingTable(){
-  this.deskID=0;
-  this.dates=[];
-}
+  function contains(value, list){
+    var isContained = false;
+    for(var i = 0; i < list.length; i++ ){
+      if(list[i] == value){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getStartEndDate(){
+    var gettingDate = $('#sdate').datepicker('getDate');
+    return gettingDate.setDate(gettingDate.getDate() + 13);
+  }
+
+  function tidyDataBookingBeforeSending(data){
+    for(var i=0; i<data.length-1; i++){
+      for(var j=(i+1); j<data.length; j++){
+        if(data[i].deskID == data[j].deskID){
+          data[i].dates.push(data[j].dates[0]);
+          //now set the DeskID to an invalid number
+          data[j].deskID=-1;
+        }
+      }
+    }
+    //Remove all the useless elements
+    var correctArray=[];
+    for(var i=0; i<data.length; i++){
+      if(data[i].deskID!=-1){
+        correctArray.push(data[i]);
+      }
+    }
+    return correctArray;
+  }
+
+  //Define an Object BookingTable
+  function BookingTable(){
+    this.deskID=0;
+    this.dates=[];
+  }
